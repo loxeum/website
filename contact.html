@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Your Free Audit — Loxeum</title>
+<meta name="description" content="Book a free 20-minute AI audit call with Loxeum.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.contact-grid{display:grid;gap:48px;grid-template-columns:1fr;align-items:start}
+@media(min-width:880px){.contact-grid{grid-template-columns:1fr 1fr}}
+.cform{border:1px solid var(--line);border-radius:18px;background:var(--glass);padding:38px}
+.cform label{display:block;font-size:13px;font-weight:600;margin:18px 0 8px;color:var(--ink)}
+.cform label:first-of-type{margin-top:0}
+.cform input,.cform select,.cform textarea{
+  width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:10px;
+  padding:13px 16px;color:var(--ink);font-family:'Inter',sans-serif;font-size:14.5px;
+}
+.cform input:focus,.cform select:focus,.cform textarea:focus{outline:none;border-color:var(--violet)}
+.cform textarea{min-height:110px;resize:vertical}
+.cform .btn{width:100%;text-align:center;margin-top:26px}
+.cform .note{font-size:12.5px;color:var(--dim);margin-top:14px;text-align:center}
+.expect{list-style:none;margin-top:28px}
+.expect li{padding:16px 0;border-bottom:1px solid var(--line);display:flex;gap:16px;font-size:15px;color:var(--dim)}
+.expect .n{font-family:'JetBrains Mono',monospace;color:var(--cyan);font-size:13px;padding-top:2px}
+.direct{margin-top:36px;font-size:14.5px;color:var(--dim)}
+.direct a{color:var(--cyan);text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="index.html"><span class="logo-mark"></span>Loxeum</a>
+    <ul class="navlinks">
+      <li><a href="agents.html">Agents</a></li>
+      <li><a href="industries.html">Industries</a></li>
+      <li><a href="training.html">Training</a></li>
+      <li><a href="process.html">Process</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-glow">Book free audit</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">Book your free audit</span>
+    <h1>20 minutes. No pitch deck. A straight answer.</h1>
+    <p>Tell us a little about your business and we'll come to the call with real questions — not a canned demo.</p>
+  </div>
+</header>
+
+<section style="padding-top:10px;">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <span class="eyebrow">What to expect</span>
+      <h2 style="font-size:clamp(24px,3vw,34px);">The first call, step by step.</h2>
+      <ul class="expect">
+        <li><span class="n">01</span><span>We ask where your team's time actually goes — the honest version, not the org-chart version.</span></li>
+        <li><span class="n">02</span><span>We tell you on the spot whether there's a real automation case, and roughly what it would return.</span></li>
+        <li><span class="n">03</span><span>If it makes sense, we scope a paid audit. If it doesn't, we say so and you keep the free advice.</span></li>
+      </ul>
+      <p class="direct">Prefer email? Reach us directly at <a href="mailto:hello@loxeum.com">hello@loxeum.com</a></p>
+    </div>
+
+    <form class="cform reveal" action="mailto:hello@loxeum.com" method="post" enctype="text/plain">
+      <label for="name">Your name</label>
+      <input id="name" name="name" type="text" placeholder="Jane Smith" required>
+
+      <label for="email">Work email</label>
+      <input id="email" name="email" type="email" placeholder="jane@company.com" required>
+
+      <label for="company">Company</label>
+      <input id="company" name="company" type="text" placeholder="Company name">
+
+      <label for="size">Team size</label>
+      <select id="size" name="size">
+        <option>1–10</option>
+        <option>11–50</option>
+        <option>51–200</option>
+        <option>200+</option>
+      </select>
+
+      <label for="pain">What's eating your team's time?</label>
+      <textarea id="pain" name="pain" placeholder="e.g. Leads sit for an hour before anyone replies, and nobody updates the CRM..."></textarea>
+
+      <button type="submit" class="btn btn-glow">Request my free audit →</button>
+      <p class="note">We reply within one business day. No newsletter, no drip campaign.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo" style="font-size:17px;margin-bottom:8px;"><span class="logo-mark" style="width:20px;height:20px;"></span>Loxeum</div>
+      <span>© 2026 Loxeum. All rights reserved.</span>
+    </div>
+    <div class="cols">
+      <a href="agents.html">Agents</a>
+      <a href="industries.html">Industries</a>
+      <a href="training.html">Training</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>
