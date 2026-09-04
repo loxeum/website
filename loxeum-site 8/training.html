@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Training for Teams — Loxeum</title>
+<meta name="description" content="Loxeum trainers teach your employees to actually use AI — hands-on workshops, role-specific playbooks, and ongoing coaching.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.track{border:1px solid var(--line);border-radius:16px;padding:32px;background:var(--glass);transition:transform .25s,border-color .25s}
+.track:hover{transform:translateY(-6px);border-color:rgba(94,230,208,.5)}
+.track .lvl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);border:1px solid rgba(94,230,208,.3);padding:4px 10px;border-radius:100px;display:inline-block;margin-bottom:16px}
+.track h3{font-size:20px;margin-bottom:10px}
+.track p{font-size:14px;color:var(--dim);margin-bottom:16px}
+.track ul{list-style:none;font-size:13px;color:var(--dim)}
+.track li{padding:5px 0;border-top:1px dashed var(--line)}
+.track li::before{content:"✓ ";color:var(--cyan)}
+.why{display:grid;gap:18px;grid-template-columns:1fr;margin-top:48px}
+@media(min-width:820px){.why{grid-template-columns:repeat(3,1fr)}}
+.why .w{border-left:2px solid var(--violet);padding-left:20px}
+.why .w h3{font-size:17px;margin-bottom:8px}
+.why .w p{font-size:14px;color:var(--dim)}
+.stat-callout{border:1px solid var(--line);border-radius:18px;background:var(--glass);padding:44px;margin-top:56px;display:grid;gap:36px;grid-template-columns:1fr;align-items:center}
+@media(min-width:820px){.stat-callout{grid-template-columns:auto 1fr}}
+.stat-callout .big{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(48px,7vw,80px);background:linear-gradient(90deg,var(--violet),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.stat-callout p{color:var(--dim);font-size:15.5px;max-width:520px}
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="index.html"><span class="logo-mark"></span>Loxeum</a>
+    <ul class="navlinks">
+      <li><a href="agents.html">Agents</a></li>
+      <li><a href="industries.html">Industries</a></li>
+      <li><a href="training.html" class="active">Training</a></li>
+      <li><a href="process.html">Process</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-glow">Book free audit</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">Loxeum Training</span>
+    <h1>An automation nobody uses is worth exactly zero.</h1>
+    <p>Our trainers teach your employees to actually use AI — hands-on, role by role, in your real tools with your real work. Not a webinar. Not a PDF. A working skill your team keeps.</p>
+  </div>
+</header>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <div class="stat-callout reveal">
+      <div class="big">58%</div>
+      <p>Roughly six in ten businesses not yet using AI say they either don't know what the tools can do or don't know where to start. That's not a software gap — it's a training gap. It's also exactly the gap your competitors are stuck in while your team gets trained.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">The tracks</span>
+      <h2>Training built for how people actually learn: doing their own job, faster.</h2>
+    </div>
+    <div class="grid3" style="margin-top:48px;">
+      <div class="track reveal">
+        <span class="lvl">TRACK 01 — FOUNDATIONS</span>
+        <h3>AI Essentials for Every Employee</h3>
+        <p>Half-day workshop that takes a team from "nervous about AI" to using it daily.</p>
+        <ul>
+          <li>What AI can and can't do (no hype)</li>
+          <li>Writing prompts that actually work</li>
+          <li>Live practice on their real tasks</li>
+          <li>Safe-use rules: data, privacy, judgment</li>
+        </ul>
+      </div>
+      <div class="track reveal">
+        <span class="lvl">TRACK 02 — ROLE PLAYBOOKS</span>
+        <h3>Job-Specific AI Workflows</h3>
+        <p>Deep-dive sessions by role — sales, admin, ops, support — each with a written playbook they keep.</p>
+        <ul>
+          <li>Sales: outreach, follow-up, call prep</li>
+          <li>Admin: documents, scheduling, inbox</li>
+          <li>Support: triage, drafting, escalation</li>
+          <li>Custom playbook per role, per company</li>
+        </ul>
+      </div>
+      <div class="track reveal">
+        <span class="lvl">TRACK 03 — AGENT OPERATORS</span>
+        <h3>Running Your Loxeum Agents</h3>
+        <p>For teams with agents deployed: how to supervise, correct, and get the most out of them.</p>
+        <ul>
+          <li>Reviewing &amp; approving agent output</li>
+          <li>Handling exceptions &amp; escalations</li>
+          <li>Requesting new automations the right way</li>
+          <li>Included with every retainer</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="why">
+      <div class="w reveal">
+        <h3>Live, not recorded</h3>
+        <p>A real trainer, in the room or on the call, working on your team's actual tasks — because nobody learns a tool from a slideshow.</p>
+      </div>
+      <div class="w reveal">
+        <h3>Repeats as you hire</h3>
+        <p>New hires get trained too. Ongoing sessions are built into the retainer so the skill doesn't walk out the door with turnover.</p>
+      </div>
+      <div class="w reveal">
+        <h3>Measured, not vibes</h3>
+        <p>We benchmark task time before and after training, so you see the hours reclaimed in numbers — not in enthusiasm.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tint">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">How it's sold</span>
+      <h2>Standalone, or bundled with your build.</h2>
+      <p>Training works on its own — some companies start here before automating anything. It's also included in every implementation, because we don't hand you a system your team doesn't know how to run.</p>
+    </div>
+    <div class="grid2" style="margin-top:44px;">
+      <div class="card reveal">
+        <h3>Standalone training</h3>
+        <p>Workshops and role playbooks for teams that want their people AI-fluent before (or instead of) deploying agents. Priced per session or as a multi-week program.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Bundled with implementation</h3>
+        <p>Every agent build includes operator training and documentation. Retainer clients get ongoing sessions for new hires and new workflows at no extra project cost.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="finale">
+  <div class="wrap">
+    <span class="eyebrow reveal">Train the team, keep the advantage</span>
+    <h2 class="reveal">Your tools are only as good as the people running them.</h2>
+    <p class="reveal">Tell us your team size and roles — we'll scope a training program on the audit call.</p>
+    <a href="contact.html" class="btn btn-glow reveal">Book your free audit →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo" style="font-size:17px;margin-bottom:8px;"><span class="logo-mark" style="width:20px;height:20px;"></span>Loxeum</div>
+      <span>© 2026 Loxeum. All rights reserved.</span>
+    </div>
+    <div class="cols">
+      <a href="agents.html">Agents</a>
+      <a href="industries.html">Industries</a>
+      <a href="training.html">Training</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>
