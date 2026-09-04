@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loxeum — Your next hire is an AI agent</title>
+<meta name="description" content="Loxeum builds, runs, and teaches AI agents for real estate, tax relief, lending, SaaS sales, insurance and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#04040A; --ink:#F2F1F7; --dim:#8B8A99;
+  --violet:#7C6CFF; --cyan:#5EE6D0;
+  --line:rgba(255,255,255,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:'Inter',sans-serif; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:-0.02em}
+
+/* fixed 3D stage */
+#stage{position:fixed;inset:0;z-index:0}
+
+/* scroll spacer — total journey length */
+#journey{height:900vh;position:relative;z-index:1;pointer-events:none}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:space-between;align-items:center;padding:20px 34px;mix-blend-mode:normal}
+nav .brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;letter-spacing:.02em;text-decoration:none;opacity:0;transition:opacity 1s ease .5s}
+nav .brand.on{opacity:1}
+nav .cta{pointer-events:auto;font-weight:600;font-size:13.5px;padding:11px 20px;border-radius:10px;text-decoration:none;background:linear-gradient(135deg,var(--violet),#5B4BE0);color:#fff;box-shadow:0 0 24px rgba(124,108,255,.4);opacity:0;transition:opacity 1s ease .8s}
+nav .cta.on{opacity:1}
+
+/* scene text overlays */
+.scene{
+  position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;
+  text-align:center;pointer-events:none;opacity:0;
+}
+.scene .inner{max-width:860px;padding:0 30px}
+.scene .kicker{
+  font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--cyan);display:block;margin-bottom:20px;
+}
+.scene h2{font-size:clamp(34px,6vw,72px);line-height:1.03;font-weight:700}
+.scene h2 .grad{background:linear-gradient(90deg,var(--violet),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.scene p{color:var(--dim);font-size:clamp(15px,1.6vw,18px);max-width:560px;margin:22px auto 0}
+.scene .chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.scene .chip{
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--cyan);
+  border:1px solid rgba(94,230,208,.35);padding:7px 14px;border-radius:100px;
+  background:rgba(94,230,208,.06);
+}
+.scene .chip.v{color:#B9AFFF;border-color:rgba(124,108,255,.4);background:rgba(124,108,255,.08)}
+
+/* wordmark for intro */
+#wordmark{
+  position:fixed;left:50%;top:62%;transform:translateX(-50%);z-index:10;
+  font-family:'Space Grotesk',sans-serif;font-weight:700;
+  font-size:clamp(38px,7vw,84px);letter-spacing:.34em;text-indent:.34em;
+  opacity:0;pointer-events:none;
+}
+#wordmark .x{background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+#scrollhint{
+  position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:10;
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;
+  color:var(--dim);opacity:0;pointer-events:none;text-transform:uppercase;
+}
+#scrollhint::after{content:"";display:block;width:1px;height:34px;background:linear-gradient(var(--cyan),transparent);margin:12px auto 0;animation:drip 1.8s ease-in-out infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}55%{transform:scaleY(1);transform-origin:top}56%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* finale */
+#finale{align-items:center}
+#finale .btn-final{
+  pointer-events:auto;display:inline-block;margin-top:38px;
+  font-weight:600;font-size:16px;padding:17px 36px;border-radius:12px;text-decoration:none;
+  background:linear-gradient(135deg,var(--violet),#5B4BE0);color:#fff;
+  box-shadow:0 0 42px rgba(124,108,255,.55);
+  transition:transform .18s ease,box-shadow .25s;
+}
+#finale .btn-final:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 0 70px rgba(124,108,255,.8)}
+#finale .sub{font-size:13px;color:var(--dim);margin-top:16px}
+
+/* progress rail */
+#rail{position:fixed;right:26px;top:50%;transform:translateY(-50%);z-index:60;display:flex;flex-direction:column;gap:14px}
+#rail .tick{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.18);transition:all .3s}
+#rail .tick.on{background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+@media(max-width:700px){#rail{display:none}}
+
+@media (prefers-reduced-motion: reduce){
+  #scrollhint::after{animation:none}
+}
+</style>
+</head>
+<body>
+
+<canvas id="stage"></canvas>
+
+<nav>
+  <a class="brand" id="brand" href="#">LO<span style="background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;">X</span>EUM</a>
+  <a class="cta" id="navcta" href="contact.html">Book free audit</a>
+</nav>
+
+<div id="wordmark">LO<span class="x">X</span>EUM</div>
+<div id="scrollhint">Scroll to begin</div>
+
+<!-- SCENES -->
+<div class="scene" data-scene="1">
+  <div class="inner">
+    <span class="kicker">Managed AI Operations</span>
+    <h2>Repetitive work is a <span class="grad">design flaw.</span></h2>
+    <p>Your team answers the same questions, chases the same documents, types the same follow-ups — every single week. We build the agents that end that.</p>
+  </div>
+</div>
+
+<div class="scene" data-scene="2">
+  <div class="inner">
+    <span class="kicker">The Core — Revenue Agents</span>
+    <h2>Every lead answered in <span class="grad">seconds.</span></h2>
+    <p>Speed-to-lead, qualification, routing, booking, relentless follow-up. While your competitor's inbox sleeps, your agent is closing the gap.</p>
+    <div class="chips">
+      <span class="chip">SPEED_TO_LEAD</span>
+      <span class="chip">QUALIFY_ROUTE</span>
+      <span class="chip">BOOK_FOLLOWUP</span>
+    </div>
+  </div>
+</div>
+
+<div class="scene" data-scene="3">
+  <div class="inner">
+    <span class="kicker">The Core — Operations Agents</span>
+    <h2>A CRM that <span class="grad">updates itself.</span></h2>
+    <p>Calls summarized. Notes logged. Schedules handled. Inboxes triaged. The admin work your best people were never hired to do — gone.</p>
+    <div class="chips">
+      <span class="chip v">CRM_AUTOLOG</span>
+      <span class="chip v">SCHEDULER</span>
+      <span class="chip v">INBOX_TRIAGE</span>
+    </div>
+  </div>
+</div>
+
+<div class="scene" data-scene="4">
+  <div class="inner">
+    <span class="kicker">Built for your industry</span>
+    <h2>Real estate. Tax relief. Lending. SaaS. <span class="grad">And yours.</span></h2>
+    <p>If your business lives or dies by follow-up — brokerages, tax firms, loan officers, sales floors, insurance agencies — the workflow is the workflow. We've mapped it.</p>
+  </div>
+</div>
+
+<div class="scene" data-scene="5">
+  <div class="inner">
+    <span class="kicker">Loxeum Training</span>
+    <h2>We teach your people to <span class="grad">run the machine.</span></h2>
+    <p>Hands-on workshops in your real tools, on your real work. Every role gets a playbook. Every new hire gets trained. The skill stays, even when staff changes.</p>
+  </div>
+</div>
+
+<div class="scene" id="finale" data-scene="6">
+  <div class="inner">
+    <span class="kicker">Loxeum — Managed AI Ops</span>
+    <h2>Your next hire is an <span class="grad">AI agent.</span></h2>
+    <a href="contact.html" class="btn-final">Book Your Free AI Audit →</a>
+    <div class="sub">20 minutes. No pitch deck. A straight answer.</div>
+  </div>
+</div>
+
+<div id="rail">
+  <span class="tick" data-t="0"></span>
+  <span class="tick" data-t="1"></span>
+  <span class="tick" data-t="2"></span>
+  <span class="tick" data-t="3"></span>
+  <span class="tick" data-t="4"></span>
+  <span class="tick" data-t="5"></span>
+</div>
+
+<div id="journey"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+if(!window.THREE) return;
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- renderer / scene ---------- */
+const canvas = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:false});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+renderer.setClearColor(0x04040A,1);
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x04040A, 0.028);
+const camera = new THREE.PerspectiveCamera(58,1,0.1,200);
+
+function size(){
+  renderer.setSize(window.innerWidth, window.innerHeight, false);
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+}
+size(); window.addEventListener('resize', size);
+
+/* ---------- lighting ---------- */
+scene.add(new THREE.AmbientLight(0x223,0.6));
+const keyL = new THREE.PointLight(0x7C6CFF, 2.2, 60); keyL.position.set(6,5,8); scene.add(keyL);
+const rimL = new THREE.PointLight(0x5EE6D0, 1.8, 60); rimL.position.set(-7,-3,6); scene.add(rimL);
+const backL = new THREE.PointLight(0x3D2E8C, 1.4, 80); backL.position.set(0,4,-10); scene.add(backL);
+const pulseL = new THREE.PointLight(0xffffff, 0, 40); scene.add(pulseL);
+
+/* ---------- the LOXEUM core ---------- */
+const core = new THREE.Group();
+scene.add(core);
+
+// infinity loop — lemniscate tube
+class Lemniscate extends THREE.Curve{
+  getPoint(t){
+    const a=2.6, T=t*Math.PI*2;
+    const d=1+Math.sin(T)*Math.sin(T);
+    return new THREE.Vector3((a*Math.cos(T))/d,(a*Math.sin(T)*Math.cos(T))/d,0);
+  }
+}
+const loopGeo = new THREE.TubeGeometry(new Lemniscate(),220,0.34,28,true);
+const loopMat = new THREE.MeshPhysicalMaterial({
+  color:0x6C5CE0, metalness:0.85, roughness:0.18,
+  emissive:0x2A1E7A, emissiveIntensity:0.8,
+  clearcoat:1, clearcoatRoughness:0.15,
+});
+const loop = new THREE.Mesh(loopGeo, loopMat);
+core.add(loop);
+
+// cyan inner energy line running through the loop
+const energyGeo = new THREE.TubeGeometry(new Lemniscate(),220,0.09,12,true);
+const energyMat = new THREE.MeshBasicMaterial({color:0x5EE6D0, transparent:true, opacity:0.9});
+const energy = new THREE.Mesh(energyGeo, energyMat);
+core.add(energy);
+
+// diamond frame (octahedron edges as fat lines via cylinders)
+const frame = new THREE.Group();
+const octa = new THREE.OctahedronGeometry(4.6);
+const edges = new THREE.EdgesGeometry(octa);
+const ep = edges.attributes.position.array;
+const edgeMat = new THREE.MeshPhysicalMaterial({
+  color:0x8A7BFF, metalness:0.9, roughness:0.2,
+  emissive:0x1B1460, emissiveIntensity:0.9, clearcoat:1
+});
+for(let i=0;i<ep.length;i+=6){
+  const a=new THREE.Vector3(ep[i],ep[i+1],ep[i+2]);
+  const b=new THREE.Vector3(ep[i+3],ep[i+4],ep[i+5]);
+  const len=a.distanceTo(b);
+  const cyl=new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.09,len,10),edgeMat);
+  cyl.position.copy(a).lerp(b,0.5);
+  cyl.lookAt(b); cyl.rotateX(Math.PI/2);
+  frame.add(cyl);
+}
+frame.rotation.z = Math.PI/2 * 0; // diamond orientation
+core.add(frame);
+
+// orbit nodes — the "agent capabilities" that detach mid-journey
+const nodes = new THREE.Group();
+const nodeMat = new THREE.MeshPhysicalMaterial({color:0x5EE6D0, metalness:0.7, roughness:0.2, emissive:0x0F4A40, emissiveIntensity:1.2});
+const nodeMat2 = new THREE.MeshPhysicalMaterial({color:0x9C8CFF, metalness:0.7, roughness:0.2, emissive:0x2A1E7A, emissiveIntensity:1.2});
+const NODE_N = 6, nodeArr=[];
+for(let i=0;i<NODE_N;i++){
+  const m=new THREE.Mesh(new THREE.IcosahedronGeometry(0.32,1), i%2?nodeMat:nodeMat2);
+  const ang=(i/NODE_N)*Math.PI*2;
+  m.userData.base={ang, r:3.6};
+  nodes.add(m); nodeArr.push(m);
+}
+core.add(nodes);
+
+/* ---------- particles & data trails ---------- */
+const P=900, pGeo=new THREE.BufferGeometry(), pPos=new Float32Array(P*3), pSpd=[];
+for(let i=0;i<P;i++){
+  pPos[i*3]=(Math.random()-0.5)*70;
+  pPos[i*3+1]=(Math.random()-0.5)*40;
+  pPos[i*3+2]=(Math.random()-0.5)*70;
+  pSpd.push(0.004+Math.random()*0.014);
+}
+pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
+const pMat=new THREE.PointsMaterial({color:0x7C6CFF,size:0.07,transparent:true,opacity:0.0});
+const particles=new THREE.Points(pGeo,pMat);
+scene.add(particles);
+
+// streaking light trails
+const trails=[];
+const trailMat=new THREE.MeshBasicMaterial({color:0x5EE6D0,transparent:true,opacity:0.25});
+for(let i=0;i<14;i++){
+  const t=new THREE.Mesh(new THREE.BoxGeometry(0.02,0.02,2.2+Math.random()*3),trailMat);
+  t.position.set((Math.random()-0.5)*40,(Math.random()-0.5)*22,(Math.random()-0.5)*40);
+  t.userData.s=0.08+Math.random()*0.16;
+  scene.add(t); trails.push(t);
+}
+
+/* ---------- scroll choreography ---------- */
+// keyframes: p = progress 0..1 across the whole journey
+// cam: position; look: lookAt; coreRot: core rotation y/x; spread: node detach 0..1; frameOpen: frame split 0..1
+const K = [
+  {p:0.00, cam:[0,0.4,34], look:[0,0,0], rotY:0.0,  rotX:0.0,  spread:0, open:0},   // far away (intro handled separately)
+  {p:0.10, cam:[0,0.2,15], look:[0,0,0], rotY:0.5,  rotX:0.05, spread:0, open:0},   // scene 1 — arrived
+  {p:0.26, cam:[7,2,9],    look:[0,0,0], rotY:1.6,  rotX:0.15, spread:0, open:0},   // scene 2 — orbit right
+  {p:0.42, cam:[-8,-2,8],  look:[0,0,0], rotY:3.1,  rotX:-0.2, spread:0.25, open:0.15}, // scene 3 — orbit left, nodes stir
+  {p:0.58, cam:[0,6,7],    look:[0,0,0], rotY:4.4,  rotX:0.5,  spread:1, open:0.7},  // scene 4 — above, fully unfolded
+  {p:0.74, cam:[0,-1,5.2], look:[0,0,0], rotY:5.8,  rotX:-0.1, spread:0.5, open:0.35},// scene 5 — close pass through
+  {p:0.90, cam:[0,0.6,12], look:[0,0,0], rotY:6.9,  rotX:0.0,  spread:0, open:0},    // finale — reconnected
+  {p:1.00, cam:[0,0.8,16], look:[0,0,0], rotY:7.2,  rotX:0.0,  spread:0, open:0},    // pull back
+];
+function lerp(a,b,t){return a+(b-a)*t}
+function sampleK(p){
+  let i=0;
+  while(i<K.length-2 && p>K[i+1].p) i++;
+  const a=K[i], b=K[i+1];
+  const t=Math.min(1,Math.max(0,(p-a.p)/(b.p-a.p)));
+  const e=t*t*(3-2*t); // smoothstep
+  return {
+    cam:[lerp(a.cam[0],b.cam[0],e),lerp(a.cam[1],b.cam[1],e),lerp(a.cam[2],b.cam[2],e)],
+    rotY:lerp(a.rotY,b.rotY,e), rotX:lerp(a.rotX,b.rotX,e),
+    spread:lerp(a.spread,b.spread,e), open:lerp(a.open,b.open,e),
+  };
+}
+
+/* ---------- text scene windows ---------- */
+// [start, full-in, full-out, end] in journey progress
+const SCENES=[
+  {el:document.querySelector('[data-scene="1"]'), w:[0.06,0.10,0.18,0.23]},
+  {el:document.querySelector('[data-scene="2"]'), w:[0.22,0.27,0.35,0.40]},
+  {el:document.querySelector('[data-scene="3"]'), w:[0.38,0.43,0.51,0.56]},
+  {el:document.querySelector('[data-scene="4"]'), w:[0.54,0.59,0.67,0.72]},
+  {el:document.querySelector('[data-scene="5"]'), w:[0.70,0.75,0.82,0.86]},
+  {el:document.querySelector('[data-scene="6"]'), w:[0.87,0.92,1.01,1.02]},
+];
+const ticks=[...document.querySelectorAll('#rail .tick')];
+
+function sceneStyle(p){
+  SCENES.forEach((s,idx)=>{
+    const [a,b,c,d]=s.w;
+    let o=0, y=40, blur=8, sc=0.96;
+    if(p>=a&&p<b){const t=(p-a)/(b-a);const e=t*t*(3-2*t);o=e;y=40*(1-e);blur=8*(1-e);sc=0.96+0.04*e}
+    else if(p>=b&&p<c){o=1;y=0;blur=0;sc=1}
+    else if(p>=c&&p<d){const t=(p-c)/(d-c);const e=t*t*(3-2*t);o=1-e;y=-30*e;blur=6*e;sc=1+0.02*e}
+    s.el.style.opacity=o;
+    s.el.style.filter=`blur(${blur}px)`;
+    s.el.style.transform=`translateY(${y}px) scale(${sc})`;
+    if(o>0.5) ticks.forEach((t,i)=>t.classList.toggle('on',i===idx));
+  });
+}
+
+/* ---------- intro (time-based, before scroll takes over) ---------- */
+let introT = 0;               // 0..1
+let introDone = reduced;      // skip cinematic intro if reduced motion
+const wordmark=document.getElementById('wordmark');
+const hint=document.getElementById('scrollhint');
+const brand=document.getElementById('brand');
+const navcta=document.getElementById('navcta');
+if(reduced){brand.classList.add('on');navcta.classList.add('on')}
+
+/* ---------- main loop ---------- */
+const clock=new THREE.Clock();
+let scrollP=0;
+function onScroll(){
+  const max=document.getElementById('journey').offsetHeight - window.innerHeight;
+  scrollP=Math.min(1,Math.max(0,window.scrollY/max));
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+function frameTick(){
+  const dt=Math.min(clock.getDelta(),0.05);
+  const t=clock.elapsedTime;
+
+  /* intro sequence */
+  if(!introDone){
+    introT+=dt/3.4;
+    const e=Math.min(1,introT);
+    const ee=e*e*(3-2*e);
+    camera.position.set(0,0.4,60-26*ee);
+    camera.lookAt(0,0,0);
+    // pulse of light at 30%
+    if(e>0.25&&e<0.5){pulseL.intensity=14*Math.sin((e-0.25)/0.25*Math.PI)}
+    else pulseL.intensity=0;
+    pMat.opacity=Math.max(0,(e-0.4)/0.6)*0.75;
+    if(e>0.55){
+      const w=(e-0.55)/0.45;
+      wordmark.style.opacity=w;
+      wordmark.style.transform=`translateX(-50%) translateY(${14*(1-w)}px)`;
+    }
+    if(e>=1){
+      introDone=true;
+      hint.style.opacity=1; hint.style.transition='opacity 1s ease';
+      brand.classList.add('on'); navcta.classList.add('on');
+    }
+  }else{
+    /* scroll-driven cinema */
+    const s=sampleK(scrollP);
+    camera.position.set(s.cam[0],s.cam[1],s.cam[2]);
+    camera.lookAt(0,0,0);
+    core.rotation.y = s.rotY + Math.sin(t*0.3)*0.04;
+    core.rotation.x = s.rotX + Math.cos(t*0.22)*0.03;
+
+    // frame opens (edges push outward)
+    frame.children.forEach((cyl,i)=>{
+      const dir=cyl.position.clone().normalize();
+      const base=cyl.userData.base||(cyl.userData.base=cyl.position.clone());
+      cyl.position.copy(base).addScaledVector(dir, s.open*2.4);
+      cyl.rotation.z+= s.open*0.002;
+    });
+
+    // nodes detach & orbit wider
+    nodeArr.forEach((m,i)=>{
+      const b=m.userData.base;
+      const r=b.r + s.spread*3.4;
+      const a=b.ang + t*(0.25+ s.spread*0.5) + i;
+      m.position.set(Math.cos(a)*r, Math.sin(a*0.9)*r*0.5, Math.sin(a)*r*0.6);
+      m.rotation.x+=dt; m.rotation.y+=dt*1.4;
+      const sc=1+s.spread*0.5;
+      m.scale.set(sc,sc,sc);
+    });
+
+    // fade wordmark & hint out once scrolling starts
+    const fade=Math.max(0,1-scrollP/0.05);
+    wordmark.style.opacity=fade;
+    hint.style.opacity=fade;
+
+    // particles drift & wake with journey
+    pMat.opacity=0.35+0.45*Math.min(1,scrollP*3);
+    sceneStyle(scrollP);
+  }
+
+  /* ambient life */
+  energyMat.opacity=0.65+Math.sin(t*2.4)*0.3;
+  energy.scale.setScalar(1+Math.sin(t*2.4)*0.012);
+  keyL.intensity=2.0+Math.sin(t*1.7)*0.35;
+  rimL.intensity=1.6+Math.cos(t*1.3)*0.3;
+
+  const pp=pGeo.attributes.position.array;
+  for(let i=0;i<P;i++){
+    pp[i*3+1]+=pSpd[i];
+    if(pp[i*3+1]>20)pp[i*3+1]=-20;
+  }
+  pGeo.attributes.position.needsUpdate=true;
+
+  trails.forEach(tr=>{
+    tr.position.z+=tr.userData.s;
+    if(tr.position.z>25)tr.position.z=-25;
+  });
+
+  renderer.render(scene,camera);
+  requestAnimationFrame(frameTick);
+}
+frameTick();
+})();
+</script>
+</body>
+</html>
